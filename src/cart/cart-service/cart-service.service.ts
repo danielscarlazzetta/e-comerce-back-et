@@ -1,37 +1,86 @@
 import { Injectable } from '@nestjs/common';
 import { CartItem } from '../entities/cart.entity';
+import { ProductoService } from 'src/producto/producto.service';
 
 @Injectable()
 export class CartServiceService {
 
     private cartItems: CartItem[] = [];
-
-    addToCart(productId: string, quantity: number = 1): void {
-        // Lógica para agregar un producto al carrito
+    // constructor(private readonly productService: ProductoService) {}
+    
+    // addToCart2(productId: string, productName: string, quantity: number = 1): void {
+    //     const existingItem = this.cartItems.find(item => item.productId === productId);
+    
+    //     if (existingItem) {
+    //         existingItem.quantity += quantity;
+    //     } else {
+    //         this.cartItems.push({ productId, productName, quantity });
+    //     }
+    // }
+    addToCart(productId: string, productName: string, quantity: number = 1): void {
+        if (!productName) {
+            throw new Error('Falta el nombre del producto');
+        }
+    
         const existingItem = this.cartItems.find(item => item.productId === productId);
-
+    
         if (existingItem) {
             existingItem.quantity += quantity;
         } else {
-            this.cartItems.push({ productId, quantity });
+            this.cartItems.push({ productId, productName, quantity });
         }
     }
 
+    // addToCart4(productId: string, quantity: number = 1): void {
+    //     const productName = this.productService.getProductName(productId);
 
+    //     if (!productName) {
+    //         throw new Error('No se encontró el nombre del producto');
+    //     }
 
+    //     const existingItem = this.cartItems.find(item => item.productId === productId);
+
+    //     if (existingItem) {
+    //         existingItem.quantity += quantity;
+    //     } else {
+    //         this.cartItems.push({ productId, productName, quantity });
+    //     }
+    // }
+
+    // async addToCart(productId: string, quantity: number = 1): Promise<void> {
+    //     try {
+    //       const productName = await this.productService.getProductName(productId);
+    
+    //       if (!productName) {
+    //         throw new Error(`No se encontró el nombre del producto con ID '${productId}'`);
+    //       }
+    
+    //       const existingItem = this.cartItems.find(item => item.productId === productId);
+    
+    //       if (existingItem) {
+    //         existingItem.quantity += quantity;
+    //       } else {
+    //         this.cartItems.push({ productId, productName, quantity });
+    //       }
+    //     } catch (error) {
+    //       throw new Error(`Error al agregar el producto al carrito: ${error.message}`);
+    //     }
+    //   }
 
     removeFromCart(productId: string): void {
-        // Lógica para eliminar un producto del carrito
         this.cartItems = this.cartItems.filter(item => item.productId !== productId);
     }
 
     getCartItems(): CartItem[] {
-        // Devuelve todos los elementos del carrito
-        return this.cartItems;
+        // return this.cartItems;
+        return this.cartItems.map(item => ({
+            productId: item.productId,
+            productName: item.productName,
+            quantity: item.quantity
+        }));
     }
 
     clearCart(): void {
-        // Lógica para limpiar el carrito (eliminar todos los elementos)
         this.cartItems = [];
     }
 }

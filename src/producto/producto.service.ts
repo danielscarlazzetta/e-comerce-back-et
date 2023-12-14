@@ -39,18 +39,6 @@ export class ProductoService {
   }
 
 
-  async updatesd(id: string, updateProductoDto: UpdateProductoDto): Promise<Producto | null> {
-
-    try {
-      const updatedProduct = await this.productoModel.findByIdAndUpdate(id, updateProductoDto, { new: true }).exec();
-      return updatedProduct;
-    } catch (error) {
-
-      throw new NotFoundException(`Producto con ID '${id}' no encontrado`);
-    }
-
-  }
-
   async update(id: string, updateProductoDto: UpdateProductoDto): Promise<Producto | null> {
     try {
       const updatedProduct = await this.productoModel.findByIdAndUpdate(id, updateProductoDto, { new: true }).exec();
@@ -63,15 +51,19 @@ export class ProductoService {
     }
   }
 
-
-  removee(id: string) {
-    return `This action removes a #${id} producto`;
-  }
-
   async remove(id: string): Promise<void> {
     const deletedProduct = await this.productoModel.findByIdAndDelete(id).exec();
     if (!deletedProduct) {
       throw new NotFoundException(`Producto con ID '${id}' no encontrado`);
+    }
+  }
+
+  async getProductName(productId: string): Promise<string | undefined> {
+    try {
+      const product = await this.productoModel.findById(productId).exec();
+      return product ? product.name : undefined;
+    } catch (error) {
+      throw new NotFoundException(`Producto con ID '${productId}' no encontrado`);
     }
   }
 

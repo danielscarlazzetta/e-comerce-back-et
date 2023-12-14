@@ -4,11 +4,15 @@ import { Controller, Get, Post, Body, Param, Delete } from '@nestjs/common';
 
 @Controller('cart')
 export class CartControllerController {
-    constructor(private readonly cartService: CartServiceService) {}
+  constructor(private readonly cartService: CartServiceService) { }
 
   @Post('add/:productId')
-  addToCart(@Param('productId') productId: string, @Body('quantity') quantity: number) {
-    this.cartService.addToCart(productId, quantity);
+  addToCart(
+    @Param('productId') productId: string,
+    @Body('quantity') quantity: number,
+    @Body('productName') productName: string) {
+
+    this.cartService.addToCart(productId, productName, quantity);
     return { message: 'Producto agregado al carrito' };
   }
 

@@ -6,8 +6,11 @@ export class CreateProductoDto {
     name: string;
 
     @IsString()
-    image: string;
+    image?: string;
 
     @IsNumber()
     price: number;
+
+    @IsNumber()
+    amount: number;
 }
