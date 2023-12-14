@@ -33,4 +33,9 @@ export class ProductoController {
     await this.productoService.remove(id);
     return { message: 'Producto eliminado correctamente' };
   }
+
+  @Get('find/:id')
+  async getProductName(@Param('id') productId: string): Promise<string | undefined> {
+    return this.productoService.getProductName(productId);
+  }
 }

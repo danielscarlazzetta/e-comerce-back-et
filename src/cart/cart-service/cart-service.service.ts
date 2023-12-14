@@ -6,7 +6,7 @@ import { ProductoService } from 'src/producto/producto.service';
 export class CartServiceService {
 
     private cartItems: CartItem[] = [];
-    // constructor(private readonly productService: ProductoService) {}
+    constructor(private readonly productService: ProductoService) {}
     
     // addToCart2(productId: string, productName: string, quantity: number = 1): void {
     //     const existingItem = this.cartItems.find(item => item.productId === productId);
@@ -17,7 +17,7 @@ export class CartServiceService {
     //         this.cartItems.push({ productId, productName, quantity });
     //     }
     // }
-    addToCart(productId: string, productName: string, quantity: number = 1): void {
+    addToCart2(productId: string, productName: string, quantity: number = 1): void {
         if (!productName) {
             throw new Error('Falta el nombre del producto');
         }
@@ -66,6 +66,42 @@ export class CartServiceService {
     //       throw new Error(`Error al agregar el producto al carrito: ${error.message}`);
     //     }
     //   }
+
+
+    addToCart(productId: string, quantity: number = 1): void {
+        this.productService.getProductName(productId) // Usa ProductService para obtener el nombre del producto
+          .then(productName => {
+            if (!productName) {
+              throw new Error('Nombre de producto no encontrado');
+            }
+            
+            const existingItem = this.cartItems.find(item => item.productId === productId);
+        
+            if (existingItem) {
+              existingItem.quantity += quantity;
+            } else {
+              this.cartItems.push({ productId, productName, quantity });
+            }
+          })
+          .catch(error => {
+            // Manejo de errores al obtener el nombre del producto
+            console.error(error);
+          });
+      }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     removeFromCart(productId: string): void {
         this.cartItems = this.cartItems.filter(item => item.productId !== productId);

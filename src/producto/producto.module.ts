@@ -18,6 +18,7 @@ import { MulterModule } from '@nestjs/platform-express';
     MulterModule.register({
       dest: './uploads', 
     }),
-  ]
+  ],
+  exports: [ProductoService]
 })
 export class ProductoModule {}

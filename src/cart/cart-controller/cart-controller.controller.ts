@@ -10,9 +10,10 @@ export class CartControllerController {
   addToCart(
     @Param('productId') productId: string,
     @Body('quantity') quantity: number,
-    @Body('productName') productName: string) {
+    //@Body('productName') productName: string
+    ) {
 
-    this.cartService.addToCart(productId, productName, quantity);
+    this.cartService.addToCart(productId,  quantity);
     return { message: 'Producto agregado al carrito' };
   }
 
