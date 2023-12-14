@@ -13,4 +13,16 @@ export class CreateProductoDto {
 
     @IsNumber()
     amount: number;
+
+    @IsString()
+    description?: string;
+
+    @IsString()
+    review?: string;
+
+    @IsString()
+    technicalSpecifications?: string;
+    
+    @IsString()
+    category?: string;
 }
