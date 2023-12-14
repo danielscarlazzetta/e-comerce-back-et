@@ -67,4 +67,18 @@ export class ProductoService {
     }
   }
 
+  async updateProductStock(productId: string): Promise<void> {
+    const product = await this.productoModel.findById(productId).exec();
+    if (product) {
+      if (product.amount > 0) {
+        product.amount -= 1;
+        await product.save();
+      } else {
+        throw new Error('No hay suficiente stock disponible');
+      }
+    } else {
+      throw new Error('Producto no encontrado');
+    }
+  }
+
 }

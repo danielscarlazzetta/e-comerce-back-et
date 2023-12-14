@@ -38,4 +38,6 @@ export class ProductoController {
   async getProductName(@Param('id') productId: string): Promise<string | undefined> {
     return this.productoService.getProductName(productId);
   }
+
+  
 }
